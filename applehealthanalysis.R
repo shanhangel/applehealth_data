@@ -8,10 +8,14 @@ library(ggthemes)
 library(lubridate)
 
 #读取数据
-xml <- xmlParse("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/导出.xml")
-df <- XML:::xmlAttrsToDataFrame(xml["//Record"])
-write.csv(df, "/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
-df <- read.csv("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
+if (file.exists("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")){
+    df <- read.csv("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
+} else {
+    xml <- xmlParse("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/导出.xml")
+    df <- XML:::xmlAttrsToDataFrame(xml["//Record"])
+    write.csv(df, "/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
+}
+
 
 #看看用数据的结构和类型
 str(df)

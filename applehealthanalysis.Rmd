@@ -1,17 +1,16 @@
-Apple Health数据探秘
+Apple Health数据分析
 ========================================================
-## Casper
+Casper
 
 Mar 13, 2016
 
 苹果从iOS 8就发布了自家的Health Kit应用，可以让与iPhone绑定的可穿戴设备所记录的健身和体征数据综合整理在一起，让用
-户在iPhone上对自己的锻炼情况和健康状况有一个综合全面的了解。但是Health应用除了呈现每日/每周的健康数据总结之外，能够说明
-的健康问题实在有限，幸好苹果开放了接口和导出功能让用户可以自己探索。
+户在iPhone上对自己的锻炼情况和健康状况有一个综合全面的了解。但是直到现在iOS发展到10，Health应用除了呈现每日/每周的健康数据总结之外，能够说明的健康问题实在有限，幸好苹果开放了导出功能让用户可以自己分析。
 
-![Apple Health](apple health.PNG)
+![Apple Health应用](apple health.PNG)
 
 ## 1. 从手机导出Apple Health数据
-打开“健康”应用，在个人页面可以选择导出数据，这次分析的数据从2015年9月18日到2017年3月10日。
+打开“健康”应用，在个人页面可以选择导出数据，这次分析的数据从2015年9月18日到2017年3月10日，时间跨度超过一年半，而且记录的体征数据也比较丰富。
 
 ```{r}
 setwd("/Users/casper/百度云同步盘/Data Analysis/applehealth_data")
@@ -24,25 +23,27 @@ library(lubridate)
 
 读取数据
 ```{r}
-#xml <- xmlParse("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/导出.xml")
-#df <- XML:::xmlAttrsToDataFrame(xml["//Record"])
-#write.csv(df, "/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
-df <- read.csv("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
+if (file.exists("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")){
+    df <- read.csv("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
+} else {
+    xml <- xmlParse("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/导出.xml")
+    df <- XML:::xmlAttrsToDataFrame(xml["//Record"])
+    write.csv(df, "/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
+}
 ```
 
 ## 2.数据预处理
-### 2.1 看看用数据的结构和类型
+### 2.1 数据的结构和类型
 ```{r}
 str(df)
 ```
-一共包含了九类共一百多万条健康数据!第一列是数据类型，第二和第三列是数据来源，第四列是数据单位，第五列到第七列是记录数据
-的时间，最后一列是设备，包含了硬件设备和健康软件。
+原始数据中一共包含了九列共一百多万条健康数据!第一列是数据类型，第二和第三列是数据来源，第四列是数据单位，第五列到第七列是记录数据的时间，最后一列是设备，包含了硬件设备和健康软件。
 
-### 2.2 显示下健康数据类型
+### 2.2 健康数据类型
 ```{r}
 unique(df$type)
 ```
-选择体重、卡路里消耗以及心率三个指标做分析，类型分别是：
+查看一下选择体重、卡路里消耗以及心率三个指标做分析，类型分别是：
 HKQuantityTypeIdentifierBodyMass, HKQuantityTypeIdentifierHeartRate,
 
 ### 2.3 数据处理
