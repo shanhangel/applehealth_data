@@ -1,20 +1,23 @@
+setwd("/Users/casper/百度云同步盘/Data Analysis/applehealth_data")
+
 #载入包
-install.packages(c("dplyr","ggplot2","lubridate","XML"))
 library(XML)
 library(dplyr)
 library(ggplot2)
-library(lubridate)
 library(ggthemes)
+library(lubridate)
 
 #读取数据
 xml <- xmlParse("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/导出.xml")
 df <- XML:::xmlAttrsToDataFrame(xml["//Record"])
-write.csv(df, "data.csv")
+write.csv(df, "/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
 df <- read.csv("/Users/Casper/百度云同步盘/Data Analysis/apple_health_export/data.csv")
 
 #看看用数据的结构和类型
 str(df)
-#一共包含一百多万条健康数据
+#一共包含了九类共一百多万条健康数据!第一列是数据类型，第二和第三列是数据来源，第四列是数据单位，第五列到第七列是记录数据
+#的时间，最后一列是设备，包含了硬件设备和健康软件。
+
 #显示下健康数据类型
 unique(df$type)
 #选择体重、卡路里消耗以及心率三个指标做分析
