@@ -1,9 +1,12 @@
 ---
-title: "Apple Health数据分析"
-author: Casper
-date: March 13, 2017
-output: md_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
+Apple Health数据分析
+========================================================
+***By Casper***
+March 13, 2017
 
 *目的是找出隐藏在数据中的一些规律，并且想办法进行解释。*
 
