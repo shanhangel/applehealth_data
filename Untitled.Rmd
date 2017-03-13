@@ -1,0 +1,36 @@
+---
+title: "Apple Health数据分析"
+output: html_document
+---
+###By Casper
+
+## 1. 载入包
+```{r}
+library(XML)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+```
+
+##2. 读取数据
+```{r}
+#xml <- xmlParse("/Users/casper/百度云同步盘/Data Analysis/apple_health_export/导出.xml")
+#df <- XML:::xmlAttrsToDataFrame(xml["//Record"])
+#write.csv(df, "date.csv")
+str(df)
+```
+可以看出一共包含一百多万条健康数据
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r }
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
